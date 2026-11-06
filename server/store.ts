@@ -9,6 +9,7 @@ import {
   createHash,
 } from "node:crypto";
 import { initialContent } from "../src/content";
+import { approvedContent } from "./approved-content";
 export const dataDir = path.resolve(process.env.DATA_DIR || "data");
 mkdirSync(path.join(dataDir, "uploads"), { recursive: true });
 export const db = new DatabaseSync(path.join(dataDir, "fisheries360.sqlite"));
@@ -24,66 +25,52 @@ const base = JSON.stringify(initialContent);
 db.prepare(
   "INSERT OR IGNORE INTO content(id,published,draft) VALUES(1,?,?)",
 ).run(base, base);
-// Migrate only the former default visuals, once; preserve owner edits and revisions.
+// Legacy conceptual media is retired from the selectable library, not presented as photography.
+db.prepare("DELETE FROM media WHERE id=? AND url=?").run(
+  "cagenode-concept-v2",
+  "/images/cagenode-hero-v2.webp",
+);
+export function getContent(draft = false) {
+  const row = db.prepare("SELECT * FROM content WHERE id=1").get() as any;
+  return {
+    content: approvedContent(JSON.parse(row[draft ? "draft" : "published"])),
+    version: row.version,
+  };
+}
+// Keep historical revision snapshots intact; migrate only current published/draft content.
 if (
   !db
     .prepare("SELECT name FROM schema_migrations WHERE name=?")
-    .get("visual-direction-v2")
+    .get("approved-brand-20261106")
 ) {
   db.exec("BEGIN IMMEDIATE");
   try {
-    const existing = db
+    const row = db
       .prepare("SELECT published,draft FROM content WHERE id=1")
-      .get() as { published: string; draft: string };
+      .get() as any;
     for (const field of ["published", "draft"] as const) {
-      const data = JSON.parse(existing[field]);
-      for (const page of ["home", "cagenode"]) {
-        const hero = data.pages[page].sections.find(
-          (s: { id: string }) => s.id === "hero",
-        );
-        if (
-          hero &&
-          (hero.image === "/images/aquaculture.webp" || hero.image === "")
-        ) {
-          hero.image = "/images/cagenode-hero-v2.webp";
-          hero.alt =
-            "AI-generated conceptual CageNode monitoring assembly above aquaculture waters; proposed hardware, not an actual installation";
-        }
-      }
-      if (JSON.stringify(data) !== existing[field]) {
+      const corrected = JSON.stringify(approvedContent(JSON.parse(row[field])));
+      if (corrected !== row[field]) {
         db.prepare(
           "INSERT INTO revisions(body,action,actor) VALUES(?,?,?)",
         ).run(
-          existing[field],
-          "Before visual redesign / " + field,
-          "Local project migration",
+          row[field],
+          `Before approved identity corrections / ${field}`,
+          "Approved content migration",
         );
         db.prepare(
           `UPDATE content SET ${field}=?,version=version+1 WHERE id=1`,
-        ).run(JSON.stringify(data));
+        ).run(corrected);
       }
     }
     db.prepare("INSERT INTO schema_migrations(name) VALUES(?)").run(
-      "visual-direction-v2",
+      "approved-brand-20261106",
     );
     db.exec("COMMIT");
   } catch (error) {
     db.exec("ROLLBACK");
     throw error;
   }
-}
-db.prepare("INSERT OR IGNORE INTO media(id,url,alt,usage) VALUES(?,?,?,?)").run(
-  "cagenode-concept-v2",
-  "/images/cagenode-hero-v2.webp",
-  "CageNode conceptual visualization",
-  "AI-generated concept poster created for Fisheries360. Proposed hardware only; not a real installation or verified production specification. Used as the video-ready hero poster.",
-);
-export function getContent(draft = false) {
-  const row = db.prepare("SELECT * FROM content WHERE id=1").get() as any;
-  return {
-    content: JSON.parse(row[draft ? "draft" : "published"]),
-    version: row.version,
-  };
 }
 export function hashPassword(password: string) {
   const salt = randomBytes(16).toString("hex");

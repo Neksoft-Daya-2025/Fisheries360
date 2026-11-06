@@ -1309,20 +1309,125 @@
 }
 
 /* Compact demo near the end of the homepage. */
-.product-film-section { padding:58px 0; }
-.public-site .product-film-section>.container { width:min(740px,calc(100% - 40px)); }
-.product-film-heading { grid-template-columns:1fr; gap:14px; margin-bottom:23px; }
-.public-site .product-film-heading h2 { font-size:36px; }
-.product-film-heading h2 br { display:none; }
-.product-film-heading>div>p:not(.eyebrow) { max-width:none; font-size:13px; margin:0; }
-.product-film-heading>div>span { margin-top:14px; }
-.product-film-foot { display:block; }
-.product-film-foot p { font-size:10px; }
-.product-film-player { box-shadow:0 10px 28px #0002; }
-@media(max-width:760px) { .product-film-section { padding:42px 0; }.public-site .product-film-heading h2 { font-size:30px; } }
+.product-film-section {
+  padding: 58px 0;
+}
+.public-site .product-film-section > .container {
+  width: min(740px, calc(100% - 40px));
+}
+.product-film-heading {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 23px;
+}
+.public-site .product-film-heading h2 {
+  font-size: 36px;
+}
+.product-film-heading h2 br {
+  display: none;
+}
+.product-film-heading > div > p:not(.eyebrow) {
+  max-width: none;
+  font-size: 13px;
+  margin: 0;
+}
+.product-film-heading > div > span {
+  margin-top: 14px;
+}
+.product-film-foot {
+  display: block;
+}
+.product-film-foot p {
+  font-size: 10px;
+}
+.product-film-player {
+  box-shadow: 0 10px 28px #0002;
+}
+@media (max-width: 760px) {
+  .product-film-section {
+    padding: 42px 0;
+  }
+  .public-site .product-film-heading h2 {
+    font-size: 30px;
+  }
+}
 
 /* Left-aligned homepage hero composition. */
-.public-site .home-hero .hero-content { justify-content:flex-start; }
-.public-site .home-hero .hero-copy { text-align:left; margin-left:0; margin-right:auto; }
-.public-site .home-hero .hero-copy>p:not(.eyebrow):not(.hero-tagline) { margin-left:0; margin-right:auto; }
-.public-site .home-hero .hero-actions { justify-content:flex-start; }
+.public-site .home-hero .hero-content {
+  justify-content: flex-start;
+}
+.public-site .home-hero .hero-copy {
+  text-align: left;
+  margin-left: 0;
+  margin-right: auto;
+}
+.public-site .home-hero .hero-copy > p:not(.eyebrow):not(.hero-tagline) {
+  margin-left: 0;
+  margin-right: auto;
+}
+.public-site .home-hero .hero-actions {
+  justify-content: flex-start;
+}
+
+/* Approved identity and contact corrections. */
+.public-site .logo small {
+  font-size: 7px;
+  letter-spacing: 0.025em;
+  line-height: 1.5;
+  white-space: normal;
+  max-width: 240px;
+}
+.company-contact {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.company-contact > span {
+  font-size: 11px;
+  opacity: 0.85;
+}
+.company-contact a {
+  width: fit-content;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.public-site .neksoft-word {
+  font-size: clamp(20px, 2.5vw, 35px);
+  line-height: 1.25;
+  max-width: 560px;
+}
+.public-site .neksoft-word small {
+  line-height: 1.7;
+}
+.public-site .field-story-image > .farm-atlas {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding-bottom: 100px;
+}
+.public-site .field-story-image figcaption {
+  background: #183342;
+  padding-top: 24px;
+}
+@media (max-width: 760px) {
+  .public-site .logo small {
+    max-width: 175px;
+    font-size: 6px;
+  }
+  .public-site .footer-bottom > span {
+    line-height: 1.8;
+  }
+  .company-contact {
+    font-size: 12px;
+  }
+  .public-site .hero-bottom > span {
+    max-width: 70%;
+    font-size: 7px;
+  }
+}

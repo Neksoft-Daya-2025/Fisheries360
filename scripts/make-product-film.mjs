@@ -260,7 +260,7 @@ await png(
     text(
       640,
       331,
-      "Pond se Profit tak",
+      "Connecting Aquaculture to Intelligence",
       26,
       "#dfbe88",
       'text-anchor="middle"',
@@ -268,8 +268,8 @@ await png(
     text(
       640,
       402,
-      "Connected aquaculture. Intelligent farm management.",
-      24,
+      "A product of Neksoft Consultancy Services B.V.",
+      22,
       "#b8cbd7",
       'text-anchor="middle"',
     ) +

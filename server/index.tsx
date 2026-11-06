@@ -12,6 +12,12 @@ import { App } from "../src/App";
 import { PageKey, pageKeys, initialContent } from "../src/content";
 import { db, dataDir, getContent, checkPassword, tokenHash } from "./store";
 import { enquirySchema, contentSchema, enquiryUpdate } from "./validation";
+import { brand } from "../src/brand";
+import { approvedContent } from "./approved-content";
+import { enquiryMailer } from "./enquiry-mail";
+const mailer = enquiryMailer(db);
+const mailTimer = setInterval(() => void mailer.flush(), 30000);
+mailTimer.unref();
 const app = express();
 const production = process.env.NODE_ENV === "production";
 const built = production || process.env.LOCAL_PREVIEW === "1";
@@ -164,14 +170,23 @@ app.post("/api/enquiries", limited(8), (req, res) => {
   }
   const d = parsed.data;
   try {
+    db.exec("BEGIN IMMEDIATE");
     const result = db
       .prepare(
         "INSERT INTO enquiries(name,email,company,location,requirements) VALUES(?,?,?,?,?)",
       )
       .run(d.name, d.email, d.company, d.location, d.requirements);
+    mailer.enqueue(Number(result.lastInsertRowid));
+    db.exec("COMMIT");
+    void mailer.flush();
     if (json) res.status(201).json({ id: Number(result.lastInsertRowid) });
     else res.redirect(303, "/contact?saved=" + result.lastInsertRowid);
   } catch {
+    try {
+      db.exec("ROLLBACK");
+    } catch {
+      /* No active transaction after a completed save. */
+    }
     if (json)
       res
         .status(500)
@@ -190,38 +205,32 @@ function saveRevision(body: string, action: string, actor: string) {
 app.put("/api/admin/content", auth, (req, res) => {
   const parsed = contentSchema.safeParse(req.body.content);
   if (!parsed.success) {
-    res
-      .status(400)
-      .json({
-        error:
-          "Content validation failed. Check text lengths, image alt text and links.",
-        details: parsed.error.issues,
-      });
+    res.status(400).json({
+      error:
+        "Content validation failed. Check text lengths, image alt text and links.",
+      details: parsed.error.issues,
+    });
     return;
   }
   for (const key of pageKeys) {
     const ids = parsed.data.pages[key].sections.map((s) => s.id);
     const expected = initialContent.pages[key].sections.map((s) => s.id);
     if (JSON.stringify(ids) !== JSON.stringify(expected)) {
-      res
-        .status(400)
-        .json({
-          error: "Page section identities and order must be preserved.",
-        });
+      res.status(400).json({
+        error: "Page section identities and order must be preserved.",
+      });
       return;
     }
   }
+  parsed.data = approvedContent(parsed.data);
   db.exec("BEGIN IMMEDIATE");
   try {
     const current = getContent(true);
     if (req.body.version !== current.version) {
       db.exec("ROLLBACK");
-      res
-        .status(409)
-        .json({
-          error:
-            "This draft changed in another session. Reload before editing.",
-        });
+      res.status(409).json({
+        error: "This draft changed in another session. Reload before editing.",
+      });
       return;
     }
     saveRevision(
@@ -297,7 +306,7 @@ app.post("/api/admin/revisions/:id/restore", auth, owner, (req, res) => {
       res.locals.user.email,
     );
     db.prepare("UPDATE content SET draft=?,version=version+1 WHERE id=1").run(
-      revision.body,
+      JSON.stringify(approvedContent(JSON.parse(revision.body))),
     );
     db.exec("COMMIT");
     res.json(getContent(true));
@@ -308,7 +317,12 @@ app.post("/api/admin/revisions/:id/restore", auth, owner, (req, res) => {
 });
 app.get("/api/admin/enquiries", auth, (_req, res) =>
   res.json(
-    db.prepare("SELECT * FROM enquiries ORDER BY created DESC,id DESC").all(),
+    db
+      .prepare(
+        "SELECT e.*,m.status AS mail_status,m.last_error AS mail_error FROM enquiries e LEFT JOIN enquiry_mail m ON m.enquiry_id=e.id ORDER BY e.created DESC,e.id DESC",
+      )
+      .all()
+      .map((row: any) => ({ ...row, mail_configured: mailer.configured })),
   ),
 );
 app.patch("/api/admin/enquiries/:id", auth, (req, res) => {
@@ -339,7 +353,9 @@ app.delete("/api/admin/enquiries/:id", auth, owner, (req, res) => {
   res.json({ ok: true });
 });
 app.get("/api/admin/media", auth, (_req, res) =>
-  res.json(db.prepare("SELECT * FROM media ORDER BY created DESC, rowid DESC").all()),
+  res.json(
+    db.prepare("SELECT * FROM media ORDER BY created DESC, rowid DESC").all(),
+  ),
 );
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -355,12 +371,10 @@ app.post("/api/admin/media", auth, upload.single("file"), async (req, res) => {
     usage.length < 5 ||
     usage.length > 1000
   ) {
-    res
-      .status(400)
-      .json({
-        error:
-          "Choose an image, descriptive alt text and rights/source information.",
-      });
+    res.status(400).json({
+      error:
+        "Choose an image, descriptive alt text and rights/source information.",
+    });
     return;
   }
   const id = randomUUID();
@@ -375,12 +389,10 @@ app.post("/api/admin/media", auth, upload.single("file"), async (req, res) => {
       .webp({ quality: 82 })
       .toFile(path.join(dataDir, "uploads", id + ".webp"));
   } catch {
-    res
-      .status(400)
-      .json({
-        error:
-          "Use a valid JPEG, PNG, WebP or AVIF image, up to 8 MB and 40 megapixels.",
-      });
+    res.status(400).json({
+      error:
+        "Use a valid JPEG, PNG, WebP or AVIF image, up to 8 MB and 40 megapixels.",
+    });
     return;
   }
   const url = `/uploads/${id}.webp`;
@@ -487,11 +499,43 @@ app.get("/{*splat}", async (req, res, next) => {
         : undefined,
       notFound: !found,
     };
-    const meta = content.pages[page];
+    const originalMeta = content.pages[page];
+    const meta = {
+      ...originalMeta,
+      description: originalMeta.description.includes(brand.company)
+        ? originalMeta.description
+        : `${originalMeta.description} ${brand.ownership}`,
+    };
+    const publicOrigin = process.env.SITE_URL?.replace(/\/$/, "");
+    const structuredData = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": `${brand.companyUrl}#organization`,
+          name: brand.company,
+          url: brand.companyUrl,
+          email: brand.email,
+          telephone: brand.telephone,
+        },
+        {
+          "@type": "SoftwareApplication",
+          name: brand.name,
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          slogan: brand.tagline,
+          description: `${brand.tagline}. ${brand.ownership} Business management with configuration-dependent monitoring integration.`,
+          publisher: { "@id": `${brand.companyUrl}#organization` },
+          ...(publicOrigin ? { url: publicOrigin } : {}),
+        },
+      ],
+    }).replace(/</g, "\\u003c");
+    const seoExtras = `<meta name="author" content="${brand.company}"/><meta property="og:site_name" content="${brand.name}"/><meta property="og:image" content="${publicOrigin || ""}/images/social-preview.webp"/><meta property="og:image:alt" content="Fisheries360 — ${brand.tagline}. Concept diagram, not a product photograph."/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="${escape(meta.seoTitle)}"/><meta name="twitter:description" content="${escape(meta.description)}"/>${!admin && !preview && found ? `<script type="application/ld+json">${structuredData}</script>` : ""}`;
     res.status(admin || found ? 200 : 404);
     res.set("Cache-Control", "no-store");
     const data = JSON.stringify(props).replace(/</g, "\\u003c");
     let html = `<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#092732"/><title>${escape(admin ? "Fisheries360 · Team workspace" : !found ? "Page not found · Fisheries360" : meta.seoTitle)}</title><meta name="description" content="${escape(meta.description)}"/>${admin || preview || !found ? '<meta name="robots" content="noindex,nofollow"/>' : ""}${process.env.SITE_URL && !admin && found && !preview ? `<link rel="canonical" href="${escape(process.env.SITE_URL.replace(/\/$/, "") + req.path)}"/>` : ""}<meta property="og:title" content="${escape(meta.seoTitle)}"/><meta property="og:description" content="${escape(meta.description)}"/><meta property="og:type" content="website"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/>${!built ? '<link rel="stylesheet" href="/src/style.css?direct"/>' : ""}${assets.css.map((h) => `<link rel="stylesheet" href="${h}"/>`).join("")}</head><body><div id="root">${admin ? "<noscript>The team workspace requires JavaScript. Public website content and enquiry submission work without it.</noscript>" : renderToString(<App {...props} />)}</div><script id="page-data" type="application/json">${data}</script><script type="module" src="${built ? assets.js : "/src/client.tsx"}"></script></body></html>`;
+    html = html.replace("</head>", seoExtras + "</head>");
     if (!built) html = await vite.transformIndexHtml(req.originalUrl, html);
     res.type("html").send(html);
   } catch (err) {
@@ -500,14 +544,12 @@ app.get("/{*splat}", async (req, res, next) => {
 });
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err?.message || "Server error");
-  res
-    .status(err instanceof multer.MulterError ? 400 : 500)
-    .json({
-      error:
-        err instanceof multer.MulterError
-          ? "Upload exceeds the allowed size or file count."
-          : "The request could not be completed. Please try again.",
-    });
+  res.status(err instanceof multer.MulterError ? 400 : 500).json({
+    error:
+      err instanceof multer.MulterError
+        ? "Upload exceeds the allowed size or file count."
+        : "The request could not be completed. Please try again.",
+  });
 });
 const port = Number(process.env.PORT || 4310);
 const server = app.listen(port, process.env.HOST || "127.0.0.1", () =>

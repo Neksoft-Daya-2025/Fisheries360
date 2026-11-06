@@ -9,6 +9,7 @@ import {
 } from "./content";
 import { Hardware } from "./Hardware";
 import { Dashboard } from "./Dashboard";
+import { brand } from "./brand";
 import {
   HeroFilm,
   HeroReadout,
@@ -40,13 +41,22 @@ export function Logo() {
       </svg>
       <span>
         Fisheries<span className="logo-number">360</span>
-        <small>POND SE PROFIT TAK</small>
+        <small>Connecting Aquaculture to Intelligence</small>
       </span>
     </a>
   );
 }
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
+}
+function CompanyContact() {
+  return (
+    <address className="company-contact">
+      <span>{brand.ownership}</span>
+      <a href={`mailto:${brand.email}`}>{brand.email}</a>
+      <a href={`tel:${brand.telephone}`}>{brand.phone}</a>
+    </address>
+  );
 }
 function ContactForm({ sent, error }: { sent?: boolean; error?: string }) {
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
@@ -74,6 +84,7 @@ function ContactForm({ sent, error }: { sent?: boolean; error?: string }) {
           <span>03</span>
           <p>Agree a practical next step</p>
         </div>
+        <CompanyContact />
         <p className="fine">
           Your information is used to respond to your enquiry. It is stored in
           the Fisheries360 enquiry system and accessible to authorised team
@@ -547,7 +558,7 @@ export function App({
             >
               {page === "home" || page === "cagenode" ? (
                 <HeroFilm
-                  poster={hero.image || "/images/cagenode-hero-v2.webp"}
+                  poster={hero.image || "/images/cagenode-diagram.svg"}
                   alt={
                     hero.alt || "Conceptual CageNode above aquaculture waters"
                   }
@@ -558,11 +569,7 @@ export function App({
                     className="hero-photo"
                     src={hero.image}
                     alt={hero.alt}
-                    srcSet={
-                      hero.image === "/images/aquaculture.webp"
-                        ? "/images/aquaculture-small.webp 800w, /images/aquaculture.webp 1600w"
-                        : undefined
-                    }
+
                     sizes="100vw"
                     fetchPriority="high"
                     width="1600"
@@ -573,10 +580,12 @@ export function App({
               <div className="hero-shade" />
               <div className="hero-content">
                 <div className="hero-copy">
-                  {page !== "home" && <p className="eyebrow">
-                    <span className="status-dot" />
-                    {chapter === 0 ? hero.eyebrow : currentHero.label}
-                  </p>}
+                  {page !== "home" && (
+                    <p className="eyebrow">
+                      <span className="status-dot" />
+                      {chapter === 0 ? hero.eyebrow : currentHero.label}
+                    </p>
+                  )}
                   <h1
                     aria-label={currentHero.title}
                     aria-live={page === "home" ? "polite" : undefined}
@@ -637,7 +646,7 @@ export function App({
                   )}
                   {page === "home" && (
                     <p className="hero-tagline">
-                      Pond se Profit tak{" "}
+                      Connecting Aquaculture to Intelligence{" "}
                       <span>
                         Connected aquaculture. Intelligent farm management.
                       </span>
@@ -694,7 +703,7 @@ export function App({
                 <span>
                   FISHERIES360 <i>/</i>{" "}
                   {page === "home"
-                    ? "CONNECTED FROM POND TO PROFIT"
+                    ? "GENERATED CONCEPT FOOTAGE · NOT AN ACTUAL INSTALLATION"
                     : page.toUpperCase()}
                 </span>
                 <a href={"#" + sections[1]?.id}>
@@ -763,7 +772,8 @@ export function App({
                     ) : s.id === "about" ? (
                       <div className="about-inline">
                         <span className="neksoft-word">
-                          NEKSOFT<small>Accelerating Your Growth</small>
+                          {brand.company}
+                          <small>{brand.ownership}</small>
                         </span>
                         <a className="text-link" href="/about">
                           Meet the product <Arrow />
@@ -774,7 +784,7 @@ export function App({
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Visit NekSoft <Arrow />
+                          Visit {brand.company} <Arrow />
                         </a>
                       </div>
                     ) : s.id === "configuration" ? (
@@ -808,7 +818,7 @@ export function App({
                         target="_blank"
                         rel="noreferrer"
                       >
-                        Visit NekSoft <Arrow />
+                        Visit {brand.company} <Arrow />
                       </a>
                     ) : s.id === "mobile" ? (
                       <div className="mobile-story">
@@ -866,7 +876,9 @@ export function App({
                 <br />
                 Intelligent farm management.
               </p>
-              <span className="tagline">Pond se Profit tak</span>
+              <span className="tagline">
+                Connecting Aquaculture to Intelligence
+              </span>
             </div>
             <div>
               <p className="eyebrow">EXPLORE</p>
@@ -886,34 +898,31 @@ export function App({
                 with a clearer view. ↗
               </a>
               <p>
-                A product by{" "}
+                A product of{" "}
                 <a
                   href="https://www.neksoftconsultancy.com/"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  NekSoft
+                  {brand.company}
                 </a>
               </p>
+              <CompanyContact />
             </div>
           </div>
           <div className="footer-bottom">
             <span>
-              © {new Date().getFullYear()} Fisheries360 · A NekSoft product
+              © {new Date().getFullYear()} Fisheries360 · A product of Neksoft
+              Consultancy Services B.V.
             </span>
             <details className="credits">
               <summary>Image & concept credits</summary>
               <p>
-                Aquaculture photo: Jebulon, edited by Bammesk, CC0, via{" "}
-                <a href="https://commons.wikimedia.org/wiki/File:Fish_farm_Amarynthos_Euboea_Greece_-_edit1.jpg">
-                  Wikimedia Commons
-                </a>
-                . Contextual location: Greece; not a customer site. Hardware:
-                original concept illustration inspired by the supplied CageNode
-                reference. Cinematic poster: AI-generated conceptual
-                visualization. Hero film: project-owner-supplied generated
-                footage, edited into a loop. These are not actual installations.
-                All dashboard data is illustrative.
+                Hardware visuals are concept diagrams, not product photographs.
+                Hero and demo films contain owner-supplied generated conceptual
+                footage. They do not show actual installations. Original product
+                photography and the approved logo are pending owner supply. All
+                dashboard data is illustrative.
               </p>
             </details>
             <a href="/admin">Team access</a>
@@ -923,4 +932,3 @@ export function App({
     </div>
   );
 }
-

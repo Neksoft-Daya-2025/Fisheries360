@@ -1,6 +1,8 @@
 # Fisheries360
 
-The updated visual direction uses a cinematic hero film, a conceptual poster fallback, a detailed farm-layout interface and a dark dashboard demonstration. The owner's four clips are now a 23-second silent loop with desktop and mobile encodes. See `docs/VIDEO.md` for edit, playback and verification details, and `docs/REDESIGN.md` for poster provenance.
+Connecting Aquaculture to Intelligence. A product of Neksoft Consultancy Services B.V.
+
+The cinematic hero and narrated product demo use owner-supplied generated concept footage, explicitly labelled. Hardware stills use a code-based diagram while the approved original logo and hardware photographs are pending. See `docs/APPROVED-CORRECTIONS.md`.
 
 A standalone React + TypeScript marketing website, Node/Express backend, SQLite content store and role-controlled team workspace. This project has its own files, database, uploads, sessions and runtime. It does not connect to or modify NekSoft systems.
 
@@ -30,7 +32,7 @@ Enter your real email, `owner` or `editor`, and a unique password of 6–256 cha
 
 Owners can edit, save drafts, preview, publish, restore content revisions and delete enquiries. Editors can edit, save drafts, preview, upload images and update enquiry status, notes and follow-up dates. Server-side role checks protect publish, restore and delete actions. Follow-up dates are records in the admin panel; they do not send scheduled notifications.
 
-To revoke an account or recover a forgotten password, the server operator must use a controlled maintenance process against this project's SQLite database, revoke its sessions and set a new scrypt hash. No web password-recovery or email service is included.
+To revoke an account or recover a forgotten password, the server operator must use a controlled maintenance process against this project's SQLite database, revoke its sessions and set a new scrypt hash. No web password-recovery service is included.
 
 ## Editing workflow
 
@@ -54,7 +56,7 @@ Sessions use random opaque tokens, hashes in SQLite, an 8-hour expiry, HttpOnly/
 
 ## Hosting requirements
 
-This app needs a **Node server with a persistent disk**, such as a VPS, a container with a persistent volume, or managed Node hosting that preserves local storage. Static-only hosting, edge Workers and ephemeral serverless filesystems cannot run this backend unchanged. Hosting has not been selected or deployed.
+This app needs a **Node server with a persistent disk**, such as a VPS, a container with a persistent volume, or managed Node hosting that preserves local storage. Static-only hosting, edge Workers and ephemeral serverless filesystems cannot run this backend unchanged. The existing authorised deployment is https://www.fisheries360.com/, served by a dedicated Node service and persistent data directory.
 
 ```powershell
 npm ci
@@ -69,7 +71,7 @@ Put an HTTPS reverse proxy in front of the Node process. Use the default loopbac
 
 Set `SITE_URL` only after the domain is confirmed. Canonical tags and `/sitemap.xml` then use that origin. Without it, canonical tags are omitted and sitemap returns 503 with a setup message. `/robots.txt` excludes admin. Authenticated draft previews and admin pages use noindex and no-store. `/api/health` checks database availability. Supervise the process and back up SQLite with its supported online backup mechanism or stop writes before copying the database plus WAL state. Restore-test backups before operating publicly.
 
-Email delivery, CRM integration, IoT ingestion, live alerts, analytics and external deployment are **not configured**. The monitoring interface is a clearly labelled illustrative demonstration. This is a marketing website and CMS, not the operational Fisheries360 application itself.
+Email notifications use a persistent outbox, routed only to info@neksoftconsultancy.com. Configure SMTP_HOST, SMTP_PORT, SMTP_FROM and, where required, SMTP_USER/SMTP_PASS server-side. Unconfigured delivery remains pending; SMTP acceptance is recorded separately from enquiry saving and does not prove inbox delivery. No real test emails are sent automatically. CRM integration, IoT ingestion, live alerts and analytics are **not configured**. The monitoring interface is a clearly labelled illustrative demonstration. This is a marketing website and CMS, not the operational Fisheries360 application itself.
 
 ## Pages and references
 

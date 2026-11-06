@@ -67,15 +67,15 @@ export const initialContent: SiteContent = {
     home: {
       seoTitle: "Fisheries360 — Connected aquaculture & farm management",
       description:
-        "Connect pond operations, proposed CageNode monitoring and fisheries business management. Pond se Profit tak.",
+        "Connect pond operations, proposed CageNode monitoring and fisheries business management. Connecting Aquaculture to Intelligence",
       sections: [
         section(
           "hero",
           "CONNECTED AQUACULTURE",
           "Your ponds. Your operations. One connected view.",
           "From the water to the balance sheet. Bring monitoring, everyday farm work and business decisions together with Fisheries360.",
-          "/images/aquaculture.webp",
-          "Fish cages in coastal aquaculture waters near Amarynthos, Greece",
+          "",
+          "",
         ),
         section(
           "ecosystem",
@@ -115,9 +115,9 @@ export const initialContent: SiteContent = {
         ),
         section(
           "about",
-          "A NEKSOFT PRODUCT",
+          "A product of Neksoft Consultancy Services B.V.",
           "Technology with the business in mind.",
-          "Fisheries360 is a NekSoft product, bringing practical digital tools to fisheries entrepreneurs and farm teams.",
+          "Fisheries360 is a product of Neksoft Consultancy Services B.V., bringing practical digital tools to fisheries entrepreneurs and farm teams.",
         ),
         section(
           "contact",
@@ -223,8 +223,8 @@ export const initialContent: SiteContent = {
           "SOLUTIONS FOR YOUR OPERATION",
           "Built around the way you farm.",
           "Whether you manage one pond or coordinate several locations, connect the records and observations that inform your next decision.",
-          "/images/aquaculture.webp",
-          "Coastal fish farm with circular net pens",
+          "",
+          "",
         ),
         section(
           "solutions",
@@ -247,14 +247,15 @@ export const initialContent: SiteContent = {
       ],
     },
     about: {
-      seoTitle: "About Fisheries360 — A NekSoft product",
+      seoTitle:
+        "About Fisheries360 — A product of Neksoft Consultancy Services B.V.",
       description:
-        "Fisheries360 by NekSoft connects fisheries business management with a proposed IoT monitoring layer. Pond se Profit tak.",
+        "Fisheries360 by Neksoft Consultancy Services B.V. connects fisheries business management with a proposed IoT monitoring layer. Connecting Aquaculture to Intelligence",
       sections: [
         section(
           "hero",
-          "FISHERIES360 BY NEKSOFT",
-          "Pond se Profit tak.",
+          "Fisheries360 by Neksoft Consultancy Services B.V.",
+          "Connecting Aquaculture to Intelligence",
           "Connected aquaculture. Intelligent farm management. Practical technology for the operational and business sides of fisheries.",
         ),
         section(
@@ -266,8 +267,8 @@ export const initialContent: SiteContent = {
         section(
           "neksoft",
           "OUR PRODUCT FAMILY",
-          "A practical digital platform from NekSoft.",
-          "Fisheries360 is a product of NekSoft Global Service Private Limited. The supplied company brochure describes practical digital platforms, implementation, training and support for growing operations. Learn more through the official NekSoft website.",
+          "A product of Neksoft Consultancy Services B.V.",
+          "Fisheries360 is a product of Neksoft Consultancy Services B.V. The supplied company brochure describes practical digital platforms, implementation, training and support for growing operations. Learn more through the official company website.",
         ),
         section(
           "principles",
@@ -441,8 +442,7 @@ initialContent.collections = {
   implementation,
 };
 for (const page of ["home", "cagenode"] as const) {
-  initialContent.pages[page].sections[0].image =
-    "/images/cagenode-hero-v2.webp";
+  initialContent.pages[page].sections[0].image = "/images/cagenode-diagram.svg";
   initialContent.pages[page].sections[0].alt =
-    "AI-generated conceptual CageNode monitoring assembly above aquaculture waters; proposed hardware, not an actual installation";
+    "CageNode concept diagram; proposed configuration, not a product photograph";
 }

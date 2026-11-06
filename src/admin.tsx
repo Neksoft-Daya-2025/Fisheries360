@@ -14,6 +14,8 @@ type Enquiry = {
   notes: string;
   follow_up: string;
   created: string;
+  mail_status?: string;
+  mail_configured?: boolean;
 };
 type Revision = { id: number; action: string; actor: string; created: string };
 export function Admin() {
@@ -496,14 +498,14 @@ export function Admin() {
                         s.alt =
                           m?.alt ||
                           (e.target.value
-                            ? "Fish cages in coastal waters near Amarynthos, Greece"
+                            ? "CageNode concept diagram; proposed configuration, not a product photograph"
                             : "");
                       })
                     }
                   >
                     <option value="">No section image</option>
-                    <option value="/images/aquaculture.webp">
-                      Aquaculture · Greece · CC0 contextual photo
+                    <option value="/images/cagenode-diagram.svg">
+                      CageNode · concept diagram · not a photograph
                     </option>
                     {media.map((m) => (
                       <option key={m.id} value={m.url}>
@@ -683,24 +685,23 @@ export function Admin() {
             <div className="media-grid">
               <article>
                 <img
-                  src="/images/aquaculture.webp"
-                  alt="Coastal aquaculture in Greece"
+                  src="/images/cagenode-diagram.svg"
+                  alt="CageNode concept diagram; not a product photograph"
                 />
-                <h3>Aquaculture photograph</h3>
+                <h3>CageNode concept diagram</h3>
                 <p>
-                  Jebulon / Bammesk · CC0. Contextual image; not a Fisheries360
-                  customer.
+                  Original code-based illustration of a proposed configuration.
+                  Approved original hardware photography is pending.
                 </p>
-                <a href="https://commons.wikimedia.org/wiki/File:Fish_farm_Amarynthos_Euboea_Greece_-_edit1.jpg">
-                  Source & licence ↗
-                </a>
                 <p className="fine">
                   Used in:{" "}
                   {content &&
                     Object.entries(content.pages)
                       .flatMap(([key, p]) =>
                         p.sections
-                          .filter((s) => s.image === "/images/aquaculture.webp")
+                          .filter(
+                            (s) => s.image === "/images/cagenode-diagram.svg",
+                          )
                           .map((s) => `${key}/${s.id}`),
                       )
                       .join(", ")}
@@ -736,8 +737,9 @@ export function Admin() {
         {tab === "enquiries" && (
           <>
             <p>
-              Saved form submissions only. Follow-up dates are tracked here; no
-              automated email or reminder delivery is configured.
+              Saved form submissions only. Follow-up dates are tracked here;
+              email notification status is shown for each enquiry. Follow-up
+              reminders are not sent automatically.
             </p>
             <button
               className="secondary-button"
@@ -940,6 +942,15 @@ function EnquiryCard({
         <span className="sample-badge">{q.status}</span>
       </div>
       <p className="enquiry-requirements">{q.requirements}</p>
+      <p className="fine">
+        Email notification:{" "}
+        {q.mail_status === "sent"
+          ? "Accepted by configured SMTP server"
+          : q.mail_configured
+            ? "Queued for delivery / retry"
+            : "SMTP not configured; enquiry saved for admin review"}
+        . Recipient: info@neksoftconsultancy.com.
+      </p>
       <form
         onSubmit={(e) => {
           e.preventDefault();

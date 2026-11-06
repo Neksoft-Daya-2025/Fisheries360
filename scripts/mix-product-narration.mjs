@@ -8,7 +8,7 @@ const ffmpeg = path.resolve(
   "../work/media-tools/node_modules/ffmpeg-static/ffmpeg.exe",
 );
 const scenes = JSON.parse(
-  await fs.readFile(path.join(work, "narration-script.json"), "utf8"),
+  await fs.readFile(path.join(root, "scripts/product-narration.json"), "utf8"),
 );
 async function run(args) {
   await new Promise((resolve, reject) => {

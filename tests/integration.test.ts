@@ -363,13 +363,13 @@ test(
           const form = new FormData();
           form.set(
             "file",
-            new Blob([readFileSync("public/images/aquaculture-small.webp")], {
+            new Blob([readFileSync("public/images/social-preview.webp")], {
               type: "image/webp",
             }),
             "sample.webp",
           );
           form.set("alt", "Isolated aquaculture image");
-          form.set("usage", "Test-only copy of bundled CC0 image.");
+          form.set("usage", "Test-only copy of the project diagram preview.");
           const r = await fetch(origin + "/api/admin/media", {
             method: "POST",
             headers: {

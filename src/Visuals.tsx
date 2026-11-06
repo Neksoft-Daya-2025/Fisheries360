@@ -50,14 +50,14 @@ export function ProductFilm() {
           aria-label="Fisheries360 product walkthrough, 60 seconds"
           src={
             mobile
-              ? "/media/fisheries360-product-demo-mobile.mp4?v=voice-2"
-              : "/media/fisheries360-product-demo.mp4?v=voice-2"
+              ? "/media/fisheries360-product-demo-mobile.mp4?v=approved-3"
+              : "/media/fisheries360-product-demo.mp4?v=approved-3"
           }
         >
           <track
             default
             kind="captions"
-            src="/media/fisheries360-product-demo.vtt?v=voice-2"
+            src="/media/fisheries360-product-demo.vtt?v=approved-3"
             srcLang="en"
             label="English"
           />
@@ -108,8 +108,8 @@ export function ProductFilm() {
               business context.
             </li>
             <li>
-              <b>00:54</b> Fisheries three sixty. Pond se profit tak. Request a
-              demo.
+              <b>00:54</b> Fisheries three sixty. Connecting Aquaculture to
+              Intelligence Request a demo.
             </li>
           </ol>
           <p>
@@ -127,24 +127,16 @@ export function FieldStory() {
     <section className="field-story" aria-labelledby="field-story-title">
       <div className="container field-story-grid">
         <figure className="field-story-image reveal">
-          <img
-            src="/images/aquaculture.webp"
-            srcSet="/images/aquaculture-small.webp 800w, /images/aquaculture.webp 1600w"
-            sizes="(max-width: 760px) 100vw, 50vw"
-            width="1600"
-            height="941"
-            loading="lazy"
-            alt="Coastal aquaculture cages near Amarynthos, Greece; contextual photography"
-          />
+          <FarmAtlas />
           <figcaption>
-            AQUACULTURE / A CONNECTED PERSPECTIVE
+            AQUACULTURE / ILLUSTRATIVE WORKSPACE
             <small>
-              Contextual photography · Not a Fisheries360 installation
+              Diagram and illustrative data · Not a product photograph
             </small>
           </figcaption>
         </figure>
         <div className="field-story-copy reveal">
-          <p className="eyebrow">POND SE PROFIT TAK</p>
+          <p className="eyebrow">Connecting Aquaculture to Intelligence</p>
           <h2 id="field-story-title">
             A closer connection.
             <br />
@@ -232,11 +224,6 @@ export function HeroFilm({ poster, alt }: { poster: string; alt: string }) {
         width="1800"
         height="1013"
         fetchPriority="high"
-        srcSet={
-          poster === "/images/cagenode-hero-v2.webp"
-            ? "/images/cagenode-hero-v2-small.webp 900w, /images/cagenode-hero-v2.webp 1800w"
-            : undefined
-        }
         sizes="100vw"
       />
       {motion && !failed && (
