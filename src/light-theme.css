@@ -1,0 +1,100 @@
+/* Fisheries360 / Porcelain & Atlantic — restrained, accessible colour system. */
+.public-site {
+  --paper:#f8f7f3; --ink:#283642; --navy:#253b4b; --deep:#eaeef0;
+  --teal:#365e76; --aqua:#b5d1db; --muted:#61717b; --line:#dce1e3;
+  background:var(--paper); color:var(--ink);
+}
+.public-site :is(.layer-overview,.section-capabilities,.section-solutions,.section-about) { background:#f8f7f3; }
+.public-site .site-header,.public-site.is-scrolled .site-header { background:#faf9f6f7; color:#283642; border-bottom:1px solid #dedfda; box-shadow:0 3px 18px #243a4a06; }
+.public-site .site-header .logo,.public-site footer .logo { color:#2c4050; }
+.public-site .site-header .logo svg,.public-site .site-header .logo-number,.public-site footer .logo svg,.public-site footer .logo-number { color:#557d8d; }
+.public-site .site-header .logo small,.public-site footer .logo small { color:#72838b; }
+.public-site .site-header nav a { color:#5b6c77; }
+.public-site .site-header nav a:hover,.public-site .site-header nav a[aria-current] { color:#2b5269; }
+.public-site .site-header nav a:after,.public-site .reading-progress { background:#678b9b; }
+.public-site .button,.public-site .site-header .header-cta,.public-site .inner-hero:not(:has(.hero-film)) .hero-actions .button { background:#34576d; border-color:#34576d; color:#fff; }
+.public-site .button:hover,.public-site .site-header .header-cta:hover { background:#254255; border-color:#254255; color:#fff; }
+.public-site .hero-actions .button { background:#e8edf0; color:#263f50; border-color:#e8edf0; }
+.public-site .hero-actions .button:hover { background:#fff; color:#263f50; }
+.public-site .home-hero h1 em { color:#c1d7df; }
+.public-site .hero-copy>.eyebrow { color:#d0dfe4; }
+.public-site .status-dot { background:#acc7d2; }
+.public-site .text-link { color:#3c667e; }
+.public-site h2,.public-site .layer-intro h2 { color:#2b4050; }
+.public-site .layer-intro h2 span { color:#7a8d98; }
+.public-site .section-heading>.eyebrow,.public-site .layer-intro>.eyebrow { color:#5d7e8f; }
+.public-site .section-heading>p:last-child { color:#647680; }
+.public-site .layer-link { border-color:#dce2e5; background:#fff; }
+.public-site .node-scene { background:#e9eef0; }.public-site .workspace-scene { background:#e2eaee; }
+.public-site .layer-heading h3 { color:#2c4354; }.public-site .layer-number,.public-site .layer-bottom { color:#617e8d; }
+.public-site .journey-index { background:#edf0f0; border-color:#dce2e3; }
+.public-site .journey-index>span { color:#72848d; }.public-site .journey-index a { color:#466271; border-color:#d6dfe2; }
+.public-site .journey-index a small { color:#7c929b; }.public-site .journey-index a>span { color:#638899; }
+.public-site .journey-index a:hover { background:#e3e9ec; }
+.public-site .section-hardware { background:#eff1ef; }.public-site .hardware-canvas { background:#e5eae8; border-color:#d3dcda; }
+.public-site .section-dashboard { background:#eef1f3; }.public-site .section-contact { background:#f1f2ef; }
+.public-site .section-ecosystem,.public-site .section-implementation { background:#e8edf0; color:#354e5d; border-color:#d5dfe4; }
+.public-site .ocean-section .section-heading h2,.public-site .section-implementation h2,.public-site .section-implementation h3 { color:#304858; }
+.public-site .ocean-section .section-heading>.eyebrow,.public-site .section-implementation .section-heading>.eyebrow { color:#5b7a8b; }
+.public-site .ocean-section .section-heading>p:last-child,.public-site .section-implementation .section-heading>p:last-child { color:#637d8b; }
+.public-site .eco-stage { background:#f8fafb; color:#496777; border-color:#d1dfe5; }
+.public-site .eco-stage strong { color:#3c596b; font-size:12px; }.public-site .eco-stage small { color:#748d9b; }
+.public-site .eco-stage .eco-symbol,.public-site .eco-stage.active .eco-symbol { background:#e0e9ee; color:#587c90; box-shadow:none; }
+.public-site .eco-stage.active { background:#d9e5eb; border-color:#92adbc; }.public-site .eco-stage.active strong { color:#304e61; }
+.public-site .eco-arrow { color:#7996a5; }.public-site .ecosystem-line { opacity:.35; }
+.public-site .eco-detail { background:#f5f8fa; border-color:#ccdae2; color:#456675; }.public-site .eco-detail>span { color:#56788c; }.public-site .eco-detail p { color:#647e8d; }
+.public-site .implementation>div { border-color:#ccdbe1; }.public-site .implementation>div>span { color:#6c8a9b; }.public-site .implementation p,.public-site .scope-note { color:#637e8d; }
+.public-site .inner-hero:not(:has(.hero-film)) { background:#e9eef1; color:#2e485a; }
+.public-site .inner-hero:not(:has(.hero-film)) h1 { color:#2e485a; }.public-site .inner-hero:not(:has(.hero-film)) .hero-copy>.eyebrow { color:#5b7d90; }
+.public-site .inner-hero:not(:has(.hero-film)) .hero-copy>p:not(.eyebrow):not(.hero-tagline) { color:#637e8d; }
+.public-site .inner-hero:not(:has(.hero-film)) .hero-shade { background:linear-gradient(90deg,#e9eef1 15%,#e9eef1e8 55%,#e9eef180); }
+.public-site .inner-hero:not(:has(.hero-film))>.hero-photo { opacity:.16; }
+.public-site .inner-hero:not(:has(.hero-film)) .hero-actions .light { color:#456a80; border-color:#b3c6d0; }
+.public-site .hero-abstract { background:#f6f8f9; border-color:#cad8df; box-shadow:none; }.public-site .hero-abstract div { border-color:#dbe3e7; }.public-site .hero-abstract b { color:#3c5b6d; }.public-site .hero-abstract span { color:#7491a1; }
+.public-site .hero-bottom { background:#edf0f1; color:#748a96; }.public-site .hero-bottom a { color:#587c90; }
+.public-site footer { background:#e7ecee; color:#4b6574; border-color:#d0dce2; }
+.public-site footer p,.public-site footer a,.public-site footer .tagline,.public-site .footer-demo { color:#526e7e; }.public-site footer .eyebrow { color:#708c9c; }.public-site .footer-bottom { border-color:#cbd9e1; color:#6b8596; }
+.public-site .advanced-demo .advanced-mode-strip { background:#fff; border-color:#d6e0e6; }
+.public-site .advanced-demo .advanced-mode-strip button[aria-selected=true] { background:#365b72; color:#fff; }
+.public-site .advanced-demo .command-dashboard { background:#f4f6f7; border-color:#ccdbe4; }
+.public-site .advanced-demo .command-sidebar { background:#e5ebef; border-color:#cad8e1; }
+.public-site .advanced-demo .command-brand .workspace-monogram { background:#d4e1e8; color:#446c83; border-color:#b6ccda; }
+.public-site .advanced-demo .command-brand .workspace-brand-name { color:#3b586b; }.public-site .advanced-demo .workspace-brand-name b { color:#668da3; }
+.public-site .advanced-demo .command-brand small,.public-site .advanced-demo .command-nav-label { color:#718c9e; }
+.public-site .advanced-demo .command-sidebar>button { color:#5a788b; }
+.public-site .advanced-demo .command-sidebar>button[aria-pressed=true] { background:#d0dfe8; border-color:#aec7d7; color:#355d77; box-shadow:inset 3px 0 #668da3; }
+.public-site .advanced-demo .command-sidebar>button:hover { background:#d9e4eb; color:#365e76; }
+.public-site .advanced-demo .command-sidebar-note { color:#5e7f94; border-color:#bfd2de; }.public-site .advanced-demo .command-sidebar-note p { color:#738c9b; }.public-site .advanced-demo .command-sidebar-note a { color:#4c768e; }
+.public-site .advanced-demo .command-heading h3 { color:#304f64; }.public-site .advanced-demo .command-metrics strong { color:#34566c; }
+.public-site .advanced-demo .command-metrics article:before { background:#7b9eb2; }.public-site .advanced-demo .command-metrics article:nth-child(2):before { background:#c7b892; }.public-site .advanced-demo .command-metrics article:nth-child(3):before { background:#a3abc3; }.public-site .advanced-demo .command-metrics article:nth-child(4):before { background:#9ab5aa; }
+.public-site .advanced-demo .metric-symbol { background:#edf2f6; color:#7293a8; }
+@media(max-width:760px) { .public-site .menu-toggle { color:#48687b; }.public-site .site-header nav { background:#faf9f6; border-color:#d4dfe5; }.public-site .site-header nav a { color:#5b788b; } }
+
+/* Midnight & Cobalt: deliberate contrast, clean white product surfaces. */
+.public-site { --paper:#fff; --ink:#15243b; --navy:#0b1426; --deep:#0b1426; --teal:#2059db; --aqua:#6ab9fa; --line:#dce4ef; color:#15243b; background:#fff; }
+.public-site :is(.layer-overview,.section-capabilities,.section-solutions,.section-about) { background:#fff; }
+.public-site h2,.public-site .layer-intro h2,.public-site .layer-heading h3 { color:#15243b; }
+.public-site .layer-intro h2 span { color:#58718f; }
+.public-site .site-header,.public-site.is-scrolled .site-header { background:#0b1426f7; color:#f7faff; border-color:#29364f; box-shadow:0 4px 20px #09132215; }
+.public-site .site-header .logo { color:#fff; }.public-site .site-header .logo svg,.public-site .site-header .logo-number { color:#77baff; }.public-site .site-header .logo small { color:#9aaec9; }
+.public-site .site-header nav a { color:#bdc9dc; }.public-site .site-header nav a:hover,.public-site .site-header nav a[aria-current] { color:#fff; }.public-site .site-header nav a:after { background:#6baeff; }
+.public-site .button,.public-site .site-header .header-cta,.public-site .inner-hero:not(:has(.hero-film)) .hero-actions .button { color:#fff; background:#2059db; border-color:#2059db; box-shadow:0 5px 14px #2059db15; }
+.public-site .button:hover,.public-site .site-header .header-cta:hover { color:#fff; background:#1645ad; border-color:#1645ad; }
+.public-site .hero-actions .button { background:#f6f9ff; border-color:#f6f9ff; color:#11264b; }.public-site .hero-actions .button:hover { background:#dceaff; color:#11264b; }
+.public-site .home-hero h1 em { color:#92c6ff; }.public-site .text-link { color:#225bc8; }.public-site .reading-progress { background:#4c8fff; }
+.public-site .hero-bottom { background:#0b1426; color:#97aac6; }.public-site .hero-bottom a { color:#dce8fa; }
+.public-site .journey-index { background:#0e1a30; border-color:#2b3951; }.public-site .journey-index>span { color:#91a6c3; }.public-site .journey-index a { color:#e1ebfb; border-color:#2b3951; }.public-site .journey-index a small { color:#819bbe; }.public-site .journey-index a>span { color:#82b5ff; }.public-site .journey-index a:hover { background:#182d4e; }
+.public-site .section-dashboard,.public-site .section-hardware { background:#f1f5fa; }.public-site .section-contact { background:#f6f8fc; }.public-site .hardware-canvas { background:#e9eff7; border-color:#ccd9e9; }
+.public-site .section-heading>.eyebrow,.public-site .layer-intro>.eyebrow { color:#3767ae; }.public-site .section-heading>p:last-child { color:#596e88; }
+.public-site .section-ecosystem,.public-site .section-implementation { background:#101e35; color:#e6eef9; border-color:#2a3d58; }
+.public-site .ocean-section .section-heading h2,.public-site .section-implementation h2,.public-site .section-implementation h3 { color:#f2f6ff; }.public-site .ocean-section .section-heading>.eyebrow,.public-site .section-implementation .section-heading>.eyebrow { color:#8dbbff; }.public-site .ocean-section .section-heading>p:last-child,.public-site .section-implementation .section-heading>p:last-child { color:#b4c5dc; }
+.public-site .eco-stage { background:#172944; border-color:#3a506e; color:#d5e2f5; }.public-site .eco-stage strong { color:#e7effc; }.public-site .eco-stage small { color:#91a9ca; }.public-site .eco-stage .eco-symbol { background:#233e63; color:#9ac2ff; }.public-site .eco-stage.active { background:#234d8a; border-color:#74a6ef; }.public-site .eco-stage.active strong { color:#fff; }.public-site .eco-stage.active .eco-symbol { background:#3968a8; color:#fff; }
+.public-site .eco-detail { background:#152840; color:#e1ecfb; border-color:#354d6c; }.public-site .eco-detail>span { color:#9cc5ff; }.public-site .eco-detail p { color:#b8cbe3; }.public-site .eco-arrow { color:#90b6ed; }
+.public-site .implementation>div { border-color:#3b526f; }.public-site .implementation>div>span { color:#8ab7f8; }.public-site .implementation p,.public-site .scope-note { color:#b0c4dd; }
+.public-site .inner-hero:not(:has(.hero-film)) { background:#edf2fa; }.public-site .inner-hero:not(:has(.hero-film)) h1 { color:#142c4d; }.public-site .inner-hero:not(:has(.hero-film)) .hero-shade { background:linear-gradient(90deg,#edf2fa 15%,#edf2fae8 55%,#edf2fa80); }
+.public-site .advanced-demo .advanced-mode-strip button[aria-selected=true] { background:#2059db; color:#fff; }.public-site .advanced-demo .command-sidebar { background:#102039; border-color:#2e4361; }.public-site .advanced-demo .command-brand .workspace-monogram { background:#244d83; color:#d9ebff; border-color:#4272ad; }.public-site .advanced-demo .command-brand .workspace-brand-name { color:#fff; }.public-site .advanced-demo .workspace-brand-name b { color:#86b8ff; }.public-site .advanced-demo .command-brand small,.public-site .advanced-demo .command-nav-label { color:#8ea8cb; }
+.public-site .advanced-demo .command-sidebar>button { color:#b5c8e2; }.public-site .advanced-demo .command-sidebar>button[aria-pressed=true] { background:#234b7e; color:#fff; border-color:#4775af; box-shadow:inset 3px 0 #90baff; }.public-site .advanced-demo .command-sidebar>button:hover { background:#213c61; color:#fff; }
+.public-site .advanced-demo .command-sidebar-note { color:#b2c9e7; border-color:#344c6c; }.public-site .advanced-demo .command-sidebar-note p { color:#9bb4d2; }.public-site .advanced-demo .command-sidebar-note a { color:#a5ceff; }
+.public-site .advanced-demo .command-metrics strong { color:#16345a; }.public-site .advanced-demo .command-metrics article:before { background:#3978e7; }.public-site .advanced-demo .command-metrics article:nth-child(2):before { background:#d6a55c; }.public-site .advanced-demo .command-metrics article:nth-child(3):before { background:#8c7cc7; }.public-site .advanced-demo .command-metrics article:nth-child(4):before { background:#499c8d; }
+.public-site footer { background:#0b1426; color:#bdcbe0; border-color:#293952; }.public-site footer .logo { color:#fff; }.public-site footer .logo svg,.public-site footer .logo-number { color:#87b8ff; }.public-site footer .logo small { color:#8fa6c6; }.public-site footer p,.public-site footer a,.public-site footer .tagline,.public-site .footer-demo { color:#b9cce7; }.public-site footer .eyebrow { color:#89a7d0; }.public-site .footer-bottom { border-color:#2b405f; color:#95afd1; }
+@media(max-width:760px) { .public-site .menu-toggle { color:#dfebfc; }.public-site .site-header nav { background:#102039; border-color:#344968; }.public-site .site-header nav a { color:#d2e2f8; } }

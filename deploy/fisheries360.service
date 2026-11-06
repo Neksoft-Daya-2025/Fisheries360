@@ -1,0 +1,26 @@
+[Unit]
+Description=Fisheries360 website and enquiry backend
+After=network.target
+
+[Service]
+Type=simple
+User=fisheries360
+Group=fisheries360
+WorkingDirectory=/opt/fisheries360/current
+EnvironmentFile=/etc/fisheries360.env
+Environment=PATH=/home/fisheries360/.nvm/versions/node/v24.21.0/bin:/usr/bin:/bin
+ExecStart=/home/fisheries360/.nvm/versions/node/v24.21.0/bin/node --import tsx server/index.tsx
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=read-only
+ProtectSystem=strict
+ReadWritePaths=/var/lib/fisheries360
+UMask=0027
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target
+
