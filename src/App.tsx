@@ -557,12 +557,7 @@ export function App({
               className={`hero ${page === "home" ? "home-hero" : "inner-hero"} ${hero.image ? "has-photo" : ""}`}
             >
               {page === "home" || page === "cagenode" ? (
-                <HeroFilm
-                  poster={hero.image || "/images/cagenode-diagram.svg"}
-                  alt={
-                    hero.alt || "Conceptual CageNode above aquaculture waters"
-                  }
-                />
+                <HeroFilm />
               ) : (
                 hero.image && (
                   <img

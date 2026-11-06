@@ -168,7 +168,10 @@ export function FieldStory() {
   );
 }
 
-export function HeroFilm({ poster, alt }: { poster: string; alt: string }) {
+export function HeroFilm() {
+  // Match the opening water frame before playback, on error, and with reduced motion.
+  const poster = "/images/hero-water.webp";
+  const alt = "Aquaculture water and cage landscape from generated concept footage; not an actual installation";
   const video = useRef<HTMLVideoElement>(null);
   const userPaused = useRef(false);
   const [motion, setMotion] = useState(false);
