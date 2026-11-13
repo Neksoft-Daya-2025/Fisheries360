@@ -188,6 +188,7 @@ export function Admin() {
           {[
             ["content", "Pages & content"],
             ["menus", "Menus & links"],
+            ["seo", "SEO & Search Console"],
             ["media", "Image library"],
             ["enquiries", "Demo enquiries"],
             ["revisions", "Revision history"],
@@ -235,6 +236,7 @@ export function Admin() {
                   {
                     content: "Pages & content",
                     menus: "Menus & links",
+                    seo: "SEO & Search Console",
                     media: "Image library",
                     enquiries: "Demo enquiries",
                     revisions: "Revision history",
@@ -253,7 +255,7 @@ export function Admin() {
             : message ||
               `${dirty ? "Unsaved changes" : "Draft workspace"} · ${user.role === "owner" ? "Owner publishing enabled" : "Editors can save drafts; an owner publishes"}`}
         </div>
-        {(tab === "content" || tab === "menus") && content && (
+        {(tab === "content" || tab === "menus" || tab === "seo") && content && (
           <>
             <div className="admin-toolbar">
               <button
@@ -566,6 +568,38 @@ export function Admin() {
               </div>
             )}
           </>
+        )}
+        {tab === "seo" && content && (
+          <div className="admin-panel">
+            <h2>Google Search Console</h2>
+            <p>
+              Add your website as a URL-prefix property in Google Search Console
+              and choose HTML tag verification.
+            </p>
+            <label>
+              Google verification code
+              <input
+                value={content.googleSiteVerification ?? ""}
+                maxLength={256}
+                autoComplete="off"
+                spellCheck={false}
+                aria-describedby="google-verification-help"
+                onChange={(e) =>
+                  change((c) => {
+                    c.googleSiteVerification = e.target.value.trim();
+                  })
+                }
+              />
+            </label>
+            <p id="google-verification-help">
+              Paste the value from the tag’s content attribute. Save the draft,
+              publish it as an owner, then click Verify in Google Search
+              Console. Clear the field and publish to remove the tag.
+            </p>
+            <a href="/sitemap.xml" target="_blank" rel="noreferrer">
+              Open sitemap ↗
+            </a>
+          </div>
         )}
         {tab === "menus" && content && (
           <div className="admin-panel">

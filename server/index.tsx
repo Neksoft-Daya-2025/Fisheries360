@@ -535,7 +535,12 @@ app.get("/{*splat}", async (req, res, next) => {
     res.set("Cache-Control", "no-store");
     const data = JSON.stringify(props).replace(/</g, "\\u003c");
     let html = `<!DOCTYPE html><html lang="en" class="no-js"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#092732"/><title>${escape(admin ? "Fisheries360 · Team workspace" : !found ? "Page not found · Fisheries360" : meta.seoTitle)}</title><meta name="description" content="${escape(meta.description)}"/>${admin || preview || !found ? '<meta name="robots" content="noindex,nofollow"/>' : ""}${process.env.SITE_URL && !admin && found && !preview ? `<link rel="canonical" href="${escape(process.env.SITE_URL.replace(/\/$/, "") + req.path)}"/>` : ""}<meta property="og:title" content="${escape(meta.seoTitle)}"/><meta property="og:description" content="${escape(meta.description)}"/><meta property="og:type" content="website"/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/>${!built ? '<link rel="stylesheet" href="/src/style.css?direct"/>' : ""}${assets.css.map((h) => `<link rel="stylesheet" href="${h}"/>`).join("")}</head><body><div id="root">${admin ? "<noscript>The team workspace requires JavaScript. Public website content and enquiry submission work without it.</noscript>" : renderToString(<App {...props} />)}</div><script id="page-data" type="application/json">${data}</script><script type="module" src="${built ? assets.js : "/src/client.tsx"}"></script></body></html>`;
-    html = html.replace("</head>", seoExtras + "</head>");
+    const verification = content.googleSiteVerification;
+    const googleTag =
+      req.path === "/" && !preview && verification
+        ? `<meta name="google-site-verification" content="${escape(verification)}"/>`
+        : "";
+    html = html.replace("</head>", seoExtras + googleTag + "</head>");
     if (!built) html = await vite.transformIndexHtml(req.originalUrl, html);
     res.type("html").send(html);
   } catch (err) {

@@ -275,9 +275,13 @@ test(
           d.content.collections.capabilities[0][1] =
             "Verified editable shared module content.";
           d.content.menus[0].label = "Welcome";
+          const googleTag =
+            '<meta name="google-site-verification" content="test-code_123"/>';
+          d.content.googleSiteVerification = "test-code_123";
           let r = await call("/api/admin/content", "PUT", d, editor);
           assert.equal(r.status, 200);
           d = await r.json();
+          assert.ok(!(await (await fetch(origin)).text()).includes(googleTag));
           assert.ok(
             !(await (await fetch(origin)).text()).includes(
               "Isolated draft verification",
@@ -308,7 +312,7 @@ test(
             409,
           );
           const invalid = structuredClone(d);
-          invalid.content.menus[0].href = "javascript:alert(1)";
+          invalid.content.googleSiteVerification = 'test" invalid';
           assert.equal(
             (await call("/api/admin/content", "PUT", invalid, owner)).status,
             400,
@@ -324,6 +328,16 @@ test(
           assert.match(
             await (await fetch(origin)).text(),
             /Isolated draft verification/,
+          );
+          assert.ok(
+            (await (await fetch(origin)).text())
+              .split("</head>")[0]
+              .includes(googleTag),
+          );
+          assert.ok(
+            !(await (await fetch(origin + "/admin")).text()).includes(
+              googleTag,
+            ),
           );
           const revisions = await (
             await call("/api/admin/revisions", "GET", undefined, owner)

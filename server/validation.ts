@@ -45,6 +45,12 @@ const page = z.object({
 });
 const pair = z.array(text(1, 1500)).length(2);
 export const contentSchema = z.object({
+  googleSiteVerification: z
+    .string()
+    .trim()
+    .max(256)
+    .regex(/^[A-Za-z0-9_-]*$/)
+    .optional(),
   menus: z
     .array(z.object({ label: text(1, 40), href: safeLink }))
     .min(1)

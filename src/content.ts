@@ -23,6 +23,7 @@ export type PageContent = {
 export type CollectionKey =
   "capabilities" | "useCases" | "stages" | "hardwareParts" | "implementation";
 export type SiteContent = {
+  googleSiteVerification?: string;
   menus: { label: string; href: string }[];
   pages: Record<PageKey, PageContent>;
   collections: Record<CollectionKey, string[][]>;
